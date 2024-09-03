@@ -1,0 +1,91 @@
+<div class="container my-5">
+  <div class="row d-flex justify-content-center">
+    <div class="col-6">
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <div class="mb-3">
+          <label for="name" class="form-label">Full Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="fullName"
+            [ngClass]="{
+              'is-invalid':
+                (fullName?.touched || fullName?.dirty) && !fullName?.valid,
+              'is-valid': fullName?.valid
+            }"
+            formControlName="fullName"
+          />
+          @if(fullName?.invalid && (fullName?.dirty || fullName?.touched)){
+          <p class="text-danger">Name must be at least 5 characters</p>
+          }
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email Address</label>
+          <input
+            type="email"
+            class="form-control"
+            name="email"
+            aria-describedby="emailHelp"
+            [ngClass]="{
+              'is-invalid': (email?.touched || email?.dirty) && !email?.valid,
+              'is-valid': email?.valid
+            }"
+            formControlName="email"
+          />
+        </div>
+        @if(email?.invalid && (email?.dirty || email?.touched)){
+        <p class="text-danger">Email must be valid</p>
+        }
+
+        <!-- ! add user phone number -->
+        <div class="row px-2">
+          <div formArrayName="phoneNumber" class="mb-3">
+            @for (phone of phoneNumber.controls; track $index) {
+            <div [formGroupName]="$index">
+              Phone Number {{ $index + 1 }} :
+              <div class="row">
+                <input
+                  type="text"
+                  name="phone"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid':
+                      (phone?.touched || phone?.dirty) && !phone?.valid,
+                    'is-valid': phone?.valid
+                  }"
+                  formControlName="phone"
+                />
+
+                @if(phone?.invalid && (phone?.dirty || phone?.touched)){
+                <p class="text-danger">phone must be valid</p>
+                }
+
+                <button
+                type="button"
+                  class="btn btn-danger my-2"
+                  (click)="removePhoneNumber($index)"
+                  [hidden]="$index == 0"
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+            }
+          </div>
+
+          <button type="button" class="btn btn-primary" (click)="addnewPhone()">
+            Add Phone Number
+          </button>
+        </div>
+
+        <button
+          type="submit"
+          class="mt-4 btn btn-primary"
+          [disabled]="!loginForm.valid"
+        >
+          Submit
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,79 @@
+<div class="container my-5">
+  <div class="row d-flex justify-content-center">
+    <div class="col-6">
+      <h1 class="text-center">Add Product</h1>
+      <form #form="ngForm" (ngSubmit)="saveProductData()" >
+        <div class="mb-3">
+          <label for="productName" class="form-label">Enter Product Name</label>
+          <input type="text" class="form-control" name="productName" #productName="ngModel" [(ngModel)]="product.name" required/>
+          <!-- ! image name as select  -->
+          <label for="selectedIamge" class="form-label"
+            >select product image</label
+          >
+          <select
+            name="selectedIamge"
+            [(ngModel)]="product.image"
+            class="form-select"
+            required
+          >
+            <option value="0" [disabled]="true">choose image</option>
+            @for (image of imagesList; track $index) {
+            <option value="{{ image }}">{{ image }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="productDescription" class="form-label"
+            >Enter Description</label
+          >
+          <input type="text" class="form-control" name="productDescription" #productDescription="ngModel" [(ngModel)]="product.description" required/>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <div class="mb-3">
+              <label for="productPrice" class="form-label">Enter Price</label>
+              <input type="number" class="form-control" name="productPrice" #productPrice="ngModel" [(ngModel)]="product.price" required/>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="mb-3">
+              <label for="productPrice" class="form-label"
+                >Enter Quantity</label
+              >
+              <input type="number" class="form-control" name="productQuantity"  #productQuantity="ngModel" [(ngModel)]="product.quantity" required/>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <div class="mb-3">
+              <label for="productRate" class="form-label">Enter Rate</label>
+              <input type="number" class="form-control" name="productRate" min=0 max=5   #productRate="ngModel" [(ngModel)]="product.rate" required/>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="mb-3">
+              <label for="selected category" class="form-label"
+                >Enter Category</label
+              >
+              <select
+                name="selected category"
+                [(ngModel)]="product.category_id"
+                class="form-select" 
+                required
+              >
+                <option value="0" [disabled]="true">choose Category</option>
+                @for (category of categoryList; track category.id) {
+                <option value="{{ category.id }}">{{ category.name }}</option>
+                }
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100" [disabled]="!form.valid">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
